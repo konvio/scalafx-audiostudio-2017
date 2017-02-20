@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <BorderPane prefHeight="537.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controller.MainController"
             fx:id="borderPane">
@@ -29,9 +30,13 @@
         </ButtonBar>
     </bottom>
     <center>
-        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:value="">
             <columns>
-                <TableColumn prefWidth="75.0" text="C1"/>
+                <TableColumn prefWidth="75.0" text="FirstName">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="firstName"/>
+                    </cellValueFactory>
+                </TableColumn>
                 <TableColumn prefWidth="75.0" text="C2"/>
             </columns>
         </TableView>

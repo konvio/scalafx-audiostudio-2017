@@ -5,10 +5,13 @@ import scalafx.application.JFXApp
 import scalafx.scene.Scene
 import scalafxml.core.FXMLView
 
+import slick.jdbc.PostgresProfile.api._
+
 object Main extends JFXApp {
 
   val root = FXMLView(getClass.getResource("/fxml/main.fxml"), null)
 
+  val db = Database.forConfig("database")
   stage = new JFXApp.PrimaryStage() {
     title = "Audio Studio Manager"
     scene = new Scene(root)
