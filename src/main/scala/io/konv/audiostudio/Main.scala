@@ -10,7 +10,7 @@ object Main extends JFXApp {
   val root = FXMLView(getClass.getResource("/fxml/main.fxml"), null)
 
   stage = new JFXApp.PrimaryStage() {
-    title = "Unit conversion"
+    title = "Audio Studio Manager"
     scene = new Scene(root)
   }
 }
