@@ -15,3 +15,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-nop" % "1.6.4",
   "com.typesafe.slick" %% "slick-hikaricp" % "3.2.0-RC1"
 )
+
+libraryDependencies += "org.postgresql" % "postgresql" % "42.0.0.jre7"
+
+libraryDependencies += "com.typesafe" % "config" % "1.3.1"

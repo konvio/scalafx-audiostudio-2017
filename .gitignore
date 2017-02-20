@@ -71,3 +71,4 @@ fabric.properties
 
 # Custom
 workspace/
+/src/main/resources/application.conf
