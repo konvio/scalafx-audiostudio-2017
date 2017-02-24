@@ -8,6 +8,7 @@ CREATE TABLE record (
   id            SERIAL PRIMARY KEY,
   title         TEXT NOT NULL,
   artist_id     INTEGER REFERENCES artist,
+  genre_id      INTEGER REFERENCES genre,
   price         NUMERIC DEFAULT 0,
   released_date DATE    DEFAULT CURRENT_DATE,
   path          TEXT
@@ -27,4 +28,11 @@ CREATE TABLE album_record (
   track_number INTEGER DEFAULT 0,
   UNIQUE (record_id, album_id)
 );
+
+CREATE TABLE genre (
+  id          SERIAL PRIMARY KEY,
+  name        TEXT NOT NULL,
+  description TEXT
+);
+
 

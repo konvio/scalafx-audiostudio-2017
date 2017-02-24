@@ -30,14 +30,9 @@
         </ButtonBar>
     </bottom>
     <center>
-        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:value="">
+        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="tableView">
             <columns>
-                <TableColumn prefWidth="75.0" text="FirstName">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="firstName"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn prefWidth="75.0" text="C2"/>
+                <TableColumn prefWidth="75.0" text="Name" fx:id="nameColumn"/>
             </columns>
         </TableView>
     </center>
