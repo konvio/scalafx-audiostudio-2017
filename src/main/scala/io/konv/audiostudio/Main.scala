@@ -12,7 +12,10 @@ object Main extends JFXApp {
 
   stage = new JFXApp.PrimaryStage() {
     title = "Audio Studio Manager"
-    scene = new Scene(root)
+    scene = new Scene(root) {
+      stylesheets = List(Main.getClass.getResource("/css/style.css").toExternalForm)
+    }
     icons += new Image("img/icon.png")
+    minWidth = 600
   }
 }

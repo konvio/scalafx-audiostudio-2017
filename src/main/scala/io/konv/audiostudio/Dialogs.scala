@@ -15,5 +15,4 @@ object Dialogs {
     dialogPane.value.getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
   }
 
-
 }

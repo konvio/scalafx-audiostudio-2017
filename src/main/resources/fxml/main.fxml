@@ -2,9 +2,12 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
 <BorderPane prefHeight="537.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controller.MainController"
+            stylesheets="../css/style.css"
             fx:id="borderPane">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
@@ -20,14 +23,14 @@
         </MenuBar>
     </top>
     <bottom>
-        <ButtonBar prefHeight="42.0" prefWidth="565.0" BorderPane.alignment="CENTER">
-            <buttons>
-                <Button mnemonicParsing="false" text="Add Artist" onAction="#addArtist"/>
-                <Button mnemonicParsing="false" text="Release Album"/>
-                <Button mnemonicParsing="false" text="Record Song"/>
-                <Button mnemonicParsing="false" text="Artists"/>
-            </buttons>
-        </ButtonBar>
+        <ToolBar styleClass="segmented-button-bar">
+            <items>
+                <Button text="Add Artist" onAction="#addArtist" styleClass="first "/>
+                <Button text="Release Album" styleClass="button"/>
+                <Button text="Record Song" styleClass="button"/>
+                <Button text="Artists" styleClass="last"/>
+            </items>
+        </ToolBar>
     </bottom>
     <center>
         <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="tableView">
