@@ -22,7 +22,7 @@
     <bottom>
         <ButtonBar prefHeight="42.0" prefWidth="565.0" BorderPane.alignment="CENTER">
             <buttons>
-                <Button mnemonicParsing="false" text="Add Artist" onMouseClicked="#onClick"/>
+                <Button mnemonicParsing="false" text="Add Artist" onAction="#addArtist"/>
                 <Button mnemonicParsing="false" text="Release Album"/>
                 <Button mnemonicParsing="false" text="Record Song"/>
                 <Button mnemonicParsing="false" text="Artists"/>
@@ -32,7 +32,9 @@
     <center>
         <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="tableView">
             <columns>
-                <TableColumn prefWidth="75.0" text="Name" fx:id="nameColumn"/>
+                <TableColumn fx:id="id" text="Id" prefWidth="75.0"/>
+                <TableColumn fx:id="name" text="Name" prefWidth="75.0"/>
+                <TableColumn fx:id="date" text="Date"/>
             </columns>
         </TableView>
     </center>
