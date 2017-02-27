@@ -1,6 +1,10 @@
 package io.konv.audiostudio
 
-import scalafx.scene.control.{Dialog, TextInputDialog}
+import javafx.stage.Stage
+
+import scalafx.Includes._
+import scalafx.scene.control.TextInputDialog
+import scalafx.scene.image.Image
 
 object Dialogs {
 
@@ -8,6 +12,8 @@ object Dialogs {
     title = "Audio Studio"
     headerText = "Add Artist"
     contentText = "Name"
+    dialogPane.value.getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
   }
+
 
 }

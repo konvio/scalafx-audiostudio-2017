@@ -3,9 +3,8 @@ package io.konv.audiostudio
 import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
+import scalafx.scene.image.Image
 import scalafxml.core.FXMLView
-
-import slick.jdbc.PostgresProfile.api._
 
 object Main extends JFXApp {
 
@@ -14,5 +13,6 @@ object Main extends JFXApp {
   stage = new JFXApp.PrimaryStage() {
     title = "Audio Studio Manager"
     scene = new Scene(root)
+    icons += new Image("img/icon.png")
   }
 }
