@@ -4,6 +4,7 @@ import java.sql.Date
 import javafx.collections.FXCollections
 
 import io.konv.audiostudio.Includes._
+import io.konv.audiostudio.Models._
 import io.konv.audiostudio.{DBManager, Dialogs}
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
@@ -14,7 +15,6 @@ import scala.util.{Failure, Success}
 import scalafx.scene.control.{TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
-case class Artist(id: Int, name: String, date: Date)
 
 @sfxml
 class MainController(val tableView: TableView[Artist],
@@ -22,27 +22,12 @@ class MainController(val tableView: TableView[Artist],
                      val name: TableColumn[Artist, String],
                      val date: TableColumn[Artist, String]) {
 
-  implicit val GetArtist = GetResult[Artist](r => Artist(r.<<, r.<<, r.<<))
 
   private val db = DBManager.database
   private val items = tableView.items.get()
 
   initTable()
   update()
-
-  private def initTable(): Unit = {
-    id.cellValueFactory = v => v.value.id.toString
-    name.cellValueFactory = v => v.value.name
-    date.cellValueFactory = v => v.value.date.toString
-  }
-
-  private def update(): Unit = {
-    val query = sql"SELECT id, name, registered_date FROM artist".as[Artist]
-    db.run(query).onComplete {
-      case Success(v) => tableView.items.set(FXCollections.observableList(v.asJava))
-      case Failure(v) => ()
-    }
-  }
 
   def addArtist(): Unit = {
     val result = Dialogs.addArtist.showAndWait()
@@ -52,5 +37,23 @@ class MainController(val tableView: TableView[Artist],
       }
     }
   }
+
+  def recordSong(): Unit = {
+    val result = Dialogs.recordSong.showAndWait()
+  }
+
+  private def update(): Unit = {
+    DBManager.artists.onComplete {
+      case Success(v) => tableView.items.set(FXCollections.observableList(v.asJava))
+      case Failure(v) => ()
+    }
+  }
+
+  private def initTable(): Unit = {
+    id.cellValueFactory = v => v.value.id.toString
+    name.cellValueFactory = v => v.value.name
+    date.cellValueFactory = v => v.value.date.toString
+  }
+
 
 }

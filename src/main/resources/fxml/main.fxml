@@ -2,9 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-
 <BorderPane prefHeight="537.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controller.MainController"
             stylesheets="../css/style.css"
@@ -27,7 +24,7 @@
             <items>
                 <Button text="Add Artist" onAction="#addArtist" styleClass="first "/>
                 <Button text="Release Album" styleClass="button"/>
-                <Button text="Record Song" styleClass="button"/>
+                <Button text="Record Song" onAction="#recordSong" styleClass="button"/>
                 <Button text="Artists" styleClass="last"/>
             </items>
         </ToolBar>
