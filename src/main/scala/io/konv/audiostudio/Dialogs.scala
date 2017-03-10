@@ -1,31 +1,32 @@
 package io.konv.audiostudio
 
+import javafx.scene.Parent
+import javafx.scene.layout.GridPane
 import javafx.stage.Stage
 
-import io.konv.audiostudio.Models.{Artist, Record}
+import io.konv.audiostudio.Models.Record
 
 import scalafx.Includes._
-import scalafx.scene.control.{ButtonType, ChoiceBox, Dialog, TextInputDialog}
+import scalafx.geometry.Insets
+import scalafx.scene.Node
+import scalafx.scene.control._
 import scalafx.scene.image.Image
+import scalafxml.core.FXMLLoader
 
 object Dialogs {
 
-  val addArtist = new TextInputDialog() {
+  val addArtistDialog = new TextInputDialog() {
     title = "Audio Studio"
     headerText = "Add Artist"
     contentText = "Name"
     dialogPane.value.getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
   }
 
-  val recordSong = new Dialog[Record]() {
+  val recordSongDialog = new Dialog[Record]() {
     title = "Audio Studio"
     headerText = "Record Song"
+    val loader = new FXMLLoader(Main.getClass.getResource("/fxml/dialog_record_song.fxml"), null)
+    dialogPane.value.content = loader.load[Parent]
   }
 
-  private def initRecordSongDialog() = {
-    recordSong.dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
-
-    val b = new ChoiceBox[Artist]()
-
-  }
 }
