@@ -4,8 +4,8 @@ import javafx.scene.Parent
 import javafx.scene.control.ButtonBar.ButtonData
 import javafx.stage.Stage
 
-import io.konv.audiostudio.Models.Record
-import io.konv.audiostudio.controller.RecordSongController
+import io.konv.audiostudio.Models.RecordSongForm
+import io.konv.audiostudio.controller.{RecordSongController, RecordSongControllerInterface}
 
 import scalafx.Includes._
 import scalafx.scene.control._
@@ -15,19 +15,30 @@ import scalafxml.core.FXMLLoader
 object Dialogs {
 
   val addArtistDialog = new TextInputDialog() {
-    title = "Audio Studio"
+    title = "Audio Studio Manager"
     headerText = "Add Artist"
     contentText = "Name"
     dialogPane.value.getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
   }
 
-  val recordSongDialog = new Dialog[Record]() {
-    title = "Audio Studio"
+  val recordSongDialog = new Dialog[RecordSongForm]() {
+    title = "Audio Studio Manager"
     headerText = "Record Song"
-    dialogPane().buttonTypes = Seq(new ButtonType("OK", ButtonData.OK_DONE), new ButtonType("Cancel", ButtonData.CANCEL_CLOSE))
+
+    dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
     dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
+
     val loader = new FXMLLoader(Main.getClass.getResource("/fxml/dialog_record_song.fxml"), null)
-    dialogPane.value.content = loader.load[Parent]
+    dialogPane().content = loader.load[Parent]
+
+    val controller = loader.getController[RecordSongControllerInterface]()
+
+    resultConverter = buttonType => {
+      if (buttonType == ButtonType.OK) controller.model()
+      else null
+    }
   }
 
 }
+
+

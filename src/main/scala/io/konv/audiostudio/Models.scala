@@ -8,4 +8,6 @@ object Models {
 
   case class Record(id: Int, title: String, price: Int)
 
+  case class RecordSongForm(name: String, title: String, price: String)
+
 }
