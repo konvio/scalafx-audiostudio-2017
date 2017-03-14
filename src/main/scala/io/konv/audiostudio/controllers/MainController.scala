@@ -3,7 +3,7 @@ package io.konv.audiostudio.controllers
 import javafx.collections.FXCollections
 
 import io.konv.audiostudio.Includes._
-import io.konv.audiostudio.dialogs.{AddArtistDialog, RecordSongDialog}
+import io.konv.audiostudio.dialogs.{AddArtistDialog, RecordSongDialog, RecordSongForm}
 import io.konv.audiostudio.DBManager
 import io.konv.audiostudio.models.Artist
 import slick.jdbc.PostgresProfile.api._
@@ -11,7 +11,7 @@ import slick.jdbc.PostgresProfile.api._
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
-import scalafx.scene.control.{TableColumn, TableView}
+import scalafx.scene.control.{ChoiceBox, TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
 
@@ -28,6 +28,8 @@ class MainController(val tableView: TableView[Artist],
   initTable()
   update()
 
+  val c = new ChoiceBox[String]()
+
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
     result match {
@@ -37,17 +39,17 @@ class MainController(val tableView: TableView[Artist],
     }
   }
 
-  def recordSong(): Unit = {
-    val dialog = new RecordSongDialog
-    val result = dialog.showAndWait()
+  def recordSong(): Unit = new RecordSongDialog().showAndWait() match {
+    case Some(v) => ()
+    case None => ()
   }
 
-  private def update(): Unit = {
-    DBManager.artists.onComplete {
-      case Success(v) => tableView.items.set(FXCollections.observableList(v.asJava))
-      case Failure(v) => ()
-    }
+
+  private def update(): Unit = DBManager.artists.onComplete {
+    case Success(v) => tableView.items.set(FXCollections.observableList(v.asJava))
+    case Failure(v) => ()
   }
+
 
   private def initTable(): Unit = {
     id.cellValueFactory = v => v.value.id.toString
