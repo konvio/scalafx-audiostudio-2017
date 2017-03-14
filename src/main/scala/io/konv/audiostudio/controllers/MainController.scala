@@ -1,10 +1,11 @@
-package io.konv.audiostudio.controller
+package io.konv.audiostudio.controllers
 
 import javafx.collections.FXCollections
 
 import io.konv.audiostudio.Includes._
-import io.konv.audiostudio.Models._
-import io.konv.audiostudio.{DBManager, Dialogs}
+import io.konv.audiostudio.dialogs.{AddArtistDialog, RecordSongDialog}
+import io.konv.audiostudio.DBManager
+import io.konv.audiostudio.models.Artist
 import slick.jdbc.PostgresProfile.api._
 
 import scala.collection.JavaConverters._
@@ -28,7 +29,7 @@ class MainController(val tableView: TableView[Artist],
   update()
 
   def addArtist(): Unit = {
-    val result = Dialogs.addArtistDialog.showAndWait()
+    val result = new AddArtistDialog().showAndWait()
     result match {
       case Some(v) => db.run(sqlu"INSERT INTO artist(name) VALUES ('#$v')").onComplete {
         case Success(v) => update()
@@ -37,7 +38,8 @@ class MainController(val tableView: TableView[Artist],
   }
 
   def recordSong(): Unit = {
-    val result = Dialogs.recordSongDialog.showAndWait()
+    val dialog = new RecordSongDialog
+    val result = dialog.showAndWait()
   }
 
   private def update(): Unit = {
@@ -52,6 +54,4 @@ class MainController(val tableView: TableView[Artist],
     name.cellValueFactory = v => v.value.name
     date.cellValueFactory = v => v.value.date.toString
   }
-
-
 }

@@ -1,12 +1,12 @@
 package io.konv.audiostudio
 
-// AUTO-GENERATED Slick data model
-/** Stand-alone Slick data model for immediate use */
+// AUTO-GENERATED Slick data input
+/** Stand-alone Slick data input for immediate use */
 object Tables extends {
   val profile = slick.jdbc.PostgresProfile
 } with Tables
 
-/** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
+/** Slick data input trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
 trait Tables {
   val profile: slick.jdbc.JdbcProfile
 

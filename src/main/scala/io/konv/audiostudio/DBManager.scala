@@ -1,6 +1,6 @@
 package io.konv.audiostudio
 
-import io.konv.audiostudio.Models.Artist
+import io.konv.audiostudio.models.Artist
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
 
