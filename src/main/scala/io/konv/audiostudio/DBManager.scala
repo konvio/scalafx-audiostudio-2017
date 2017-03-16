@@ -21,6 +21,4 @@ object DBManager {
     val query = sql"SELECT id, name, description FROM genre".as[Genre]
     database.run(query)
   }
-
-
 }

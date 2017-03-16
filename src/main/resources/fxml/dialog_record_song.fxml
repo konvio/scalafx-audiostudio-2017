@@ -19,15 +19,23 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
     </rowConstraints>
     <children>
 
-        <TextField fx:id="title" promptText="Title" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <TextField fx:id="price" promptText="Price" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Artist"/>
-        <Label text="Title" GridPane.rowIndex="1"/>
-        <Label text="Price" GridPane.rowIndex="2"/>
-        <ChoiceBox fx:id="artist" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+        <TextField fx:id="titleField" promptText="Title" GridPane.columnIndex="1"/>
+        <TextField fx:id="priceField" promptText="Price" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Artist" GridPane.rowIndex="2"/>
+        <Label text="Title"/>
+        <Label text="Price" GridPane.rowIndex="1"/>
+        <ChoiceBox fx:id="artistChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
+                   GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"/>
+        <Label text="Path" GridPane.rowIndex="4"/>
+        <Label text="Genre" GridPane.rowIndex="3"/>
+        <TextField fx:id="pathField" promptText="Path" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <ChoiceBox fx:id="genreChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
+                   GridPane.rowIndex="3"/>
 
     </children>
     <opaqueInsets>
