@@ -4,7 +4,7 @@ import javafx.scene.Parent
 import javafx.stage.Stage
 
 import io.konv.audiostudio.Main
-import io.konv.audiostudio.controllers.RecordSongTrait
+import io.konv.audiostudio.controllers.RecordForm
 
 import scalafx.Includes._
 import scalafx.scene.control.{ButtonType, Dialog}
@@ -15,7 +15,11 @@ class RecordSongDialog extends Dialog[RecordSongForm] {
 
   val loader = new FXMLLoader(Main.getClass.getResource("/fxml/dialog_record_song.fxml"), null)
 
-  def input(): RecordSongForm = loader.getController[RecordSongTrait]().input()
+  def input(): RecordSongForm = loader.getController[RecordForm]().input()
+
+  def validate(): Boolean = {
+    if (input().name != null)
+  }
 
   title = "Audio Studio Manager"
   headerText = "Record Song"

@@ -31,7 +31,7 @@ class MainController(val tableView: TableView[Artist],
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
     result match {
-      case Some(v) => db.run(sqlu"INSERT INTO artist(name) VALUES ('#$v')").onComplete {
+      case Some(v) => db.run(sqlu"INSERT INTO artistChoiceBox(name) VALUES ('#$v')").onComplete {
         case Success(v) => update()
       }
     }

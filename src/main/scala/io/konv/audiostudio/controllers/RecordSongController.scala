@@ -4,7 +4,7 @@ import javafx.collections.FXCollections
 
 import io.konv.audiostudio.DBManager
 import io.konv.audiostudio.dialogs.RecordSongForm
-import io.konv.audiostudio.models.Artist
+import io.konv.audiostudio.models.{Artist, Record}
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -12,19 +12,30 @@ import scala.util.{Failure, Success}
 import scalafx.scene.control.{ChoiceBox, TextField}
 import scalafxml.core.macros.sfxml
 
-trait RecordSongTrait {
+trait RecordForm {
   def input(): RecordSongForm
+
+  def get(): Record
+
 }
 
 @sfxml
-class RecordSongController(val artist: ChoiceBox[Artist],
-                           val title: TextField,
-                           val price: TextField) extends RecordSongTrait {
+class RecordSongController(val artistChoiceBox: ChoiceBox[Artist],
+                           val titleField: TextField,
+                           val priceField: TextField) extends RecordForm {
 
-  override def input() = RecordSongForm(null, title.getText, price.getText)
+  override def input() = RecordSongForm(null, titleField.getText, priceField.getText)
 
-  DBManager.artists.onComplete {
-    case Success(v) => artist.items.set(FXCollections.observableList(v.asJava))
+  override def get(): Record = {
+    val artistId = artistChoiceBox.getValue.id
+    val title = titleField.getText
+    val price = priceField.getText
+
+
+  }
+
+  DBManager.artists().onComplete {
+    case Success(v) => artistChoiceBox.items.set(FXCollections.observableList(v.asJava))
     case Failure(v) => ()
   }
 }
