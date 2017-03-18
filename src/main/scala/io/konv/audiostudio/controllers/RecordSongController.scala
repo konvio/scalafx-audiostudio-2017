@@ -2,7 +2,7 @@ package io.konv.audiostudio.controllers
 
 import javafx.collections.FXCollections
 
-import io.konv.audiostudio.DBManager
+import io.konv.audiostudio.{Alerts, DBManager}
 import io.konv.audiostudio.models.{Artist, Genre, Record}
 
 import scala.collection.JavaConverters._
@@ -23,12 +23,31 @@ class RecordSongController(val titleField: TextField,
                            val pathField: TextField) extends RecordForm {
 
   override def get(): Record = {
-    val title = titleField.getText
-    val price = priceField.getText
-    val artistId = artistChoiceBox.getValue.id
-    val genreId = genreChoiceBox.getValue.id
-    val path = pathField.getText
-    Record(0, title, price.toInt, artistId, genreId, path)
+    try {
+      val title = titleField.getText
+      if (title == null) throw new IllegalStateException("Title should not be empty")
+
+      val price = priceField.getText
+
+      if (artistChoiceBox.getSelectionModel.isEmpty) throw new IllegalStateException("Artist is not selected")
+      val artistId = artistChoiceBox.getValue.id
+
+      if (genreChoiceBox.getSelectionModel.isEmpty) throw new IllegalStateException("Genre is not selected")
+      val genreId = genreChoiceBox.getValue.id
+      val path = pathField.getText
+
+      Record(0, title, price.toInt, artistId, genreId, path)
+    } catch {
+      case v: IllegalStateException => {
+        Alerts.info("Invalid input", v.getMessage)
+        null
+      }
+      case v: NumberFormatException => {
+        Alerts.info("Invalid input", "Please, enter numeric price")
+        null
+      }
+      case _: Throwable => null
+    }
   }
 
   DBManager.artists().onComplete {
