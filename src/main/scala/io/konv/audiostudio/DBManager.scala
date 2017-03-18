@@ -8,17 +8,17 @@ import scala.concurrent.Future
 
 object DBManager {
 
-  lazy val database = Database.forConfig("database")
+  lazy val db = Database.forConfig("database")
 
   def artists(): Future[Vector[Artist]] = {
     implicit val getResult = GetResult[Artist](r => Artist(r.<<, r.<<, r.<<))
     val query = sql"SELECT id, name, registered_date FROM artist".as[Artist]
-    database.run(query)
+    db.run(query)
   }
 
   def genres(): Future[Vector[Genre]] = {
     implicit val getGenre = GetResult[Genre](r => Genre(r.<<, r.<<, r.<<))
     val query = sql"SELECT id, name, description FROM genre".as[Genre]
-    database.run(query)
+    db.run(query)
   }
 }

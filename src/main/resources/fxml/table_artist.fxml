@@ -1,41 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<BorderPane prefHeight="537.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.112"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controllers.MainController"
-            stylesheets="../css/style.css"
-            fx:id="borderPane">
-    <top>
-        <MenuBar BorderPane.alignment="CENTER">
-            <Menu mnemonicParsing="false" text="File">
-                <MenuItem mnemonicParsing="false" text="Close"/>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-                <MenuItem mnemonicParsing="false" text="Delete"/>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About"/>
-            </Menu>
-        </MenuBar>
-    </top>
-    <bottom>
-        <ToolBar styleClass="segmented-button-bar">
-            <items>
-                <Button text="Add Artist" onAction="#addArtist" styleClass="first "/>
-                <Button text="Release Album" styleClass="button"/>
-                <Button text="Record Song" onAction="#recordSong" styleClass="button"/>
-                <Button text="Artists" styleClass="last"/>
-            </items>
-        </ToolBar>
-    </bottom>
-    <center>
-        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="tableView">
-            <columns>
-                <TableColumn fx:id="id" text="Id" prefWidth="75.0"/>
-                <TableColumn fx:id="name" text="Name" prefWidth="75.0"/>
-                <TableColumn fx:id="date" text="Date"/>
-            </columns>
-        </TableView>
-    </center>
-</BorderPane>
+<TableView prefHeight="537.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.112"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controllers.ArtistTabController"
+           stylesheets="../css/style.css"
+           fx:id="tableView">
+    <columns>
+        <TableColumn fx:id="id" text="Id" prefWidth="75.0"/>
+        <TableColumn fx:id="name" text="Name" prefWidth="75.0"/>
+        <TableColumn fx:id="date" text="Date"/>
+    </columns>
+</TableView>
+
