@@ -13,10 +13,10 @@ import scalafx.scene.control.{TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
 @sfxml
-class ArtistTabController(val tableView: TableView[Artist],
-                          val id: TableColumn[Artist, String],
-                          val name: TableColumn[Artist, String],
-                          val date: TableColumn[Artist, String]) {
+class ArtistsTabController(val tableView: TableView[Artist],
+                           val id: TableColumn[Artist, String],
+                           val name: TableColumn[Artist, String],
+                           val date: TableColumn[Artist, String]) {
 
   initTable()
   update()

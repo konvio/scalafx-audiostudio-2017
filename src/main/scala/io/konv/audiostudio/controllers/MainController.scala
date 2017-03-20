@@ -18,8 +18,8 @@ import scalafxml.core.macros.sfxml
 @sfxml
 class MainController(val tabPane: TabPane) {
 
-  val artistsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/table_artist.fxml"), null)
-  val recordsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/table_record.fxml"), null)
+  val artistsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_artists.fxml"), null)
+  val recordsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_records.fxml"), null)
 
   tabPane.getTabs.get(0).setContent(artistsLoader.load[Parent])
   tabPane.getTabs.get(1).setContent(recordsLoader.load[Parent])
