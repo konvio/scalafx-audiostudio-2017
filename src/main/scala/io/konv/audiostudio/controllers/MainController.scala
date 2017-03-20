@@ -2,8 +2,8 @@ package io.konv.audiostudio.controllers
 
 import javafx.scene.Parent
 
-import io.konv.audiostudio.dialogs.{AddArtistDialog, RecordSongDialog}
-import io.konv.audiostudio.models.Record
+import io.konv.audiostudio.dialogs.{AddArtistDialog, AddGenreDialog, RecordSongDialog}
+import io.konv.audiostudio.models.{Genre, Record}
 import io.konv.audiostudio.{Alerts, DBManager, Main}
 import slick.jdbc.PostgresProfile.api._
 
@@ -35,7 +35,7 @@ class MainController(val tabPane: TabPane) {
     }
   }
 
-  def recordSong(): Unit = new RecordSongDialog().showAndWait() match {
+  def addRecord(): Unit = new RecordSongDialog().showAndWait() match {
     case Some(Record(i, t, p, a, g, f)) => {
       DBManager.db.run(sqlu"INSERT INTO record(title, price, artist_id, genre_id, path) VALUES (${t},${p},${a},${g},${f})").onComplete {
         case Success(v) => {
@@ -46,5 +46,17 @@ class MainController(val tabPane: TabPane) {
       }
     }
     case None => ()
+  }
+
+  def addGenre(): Unit = new AddGenreDialog().showAndWait() match {
+    case Some(Genre(i, n, d)) => {
+      DBManager.db.run(sqlu"INSERT INTO genre(name, description) VALUES (${n}, ${d})").onComplete {
+        case Success(v) => {
+          genresLoader.getController[GenresTabTrait].update()
+          Platform.runLater(Alerts.info("Add Genre", s"Genre $n is successfully added"))
+        }
+        case Failure(v) => Alerts.error("Record Song", "Something went wrong")
+      }
+    }
   }
 }
