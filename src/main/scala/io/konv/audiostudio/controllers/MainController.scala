@@ -20,9 +20,12 @@ class MainController(val tabPane: TabPane) {
 
   val artistsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_artists.fxml"), null)
   val recordsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_records.fxml"), null)
+  val genresLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_genres.fxml"), null)
 
   tabPane.getTabs.get(0).setContent(artistsLoader.load[Parent])
   tabPane.getTabs.get(1).setContent(recordsLoader.load[Parent])
+  tabPane.getTabs.get(2).setContent(genresLoader.load[Parent])
+
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
     result match {

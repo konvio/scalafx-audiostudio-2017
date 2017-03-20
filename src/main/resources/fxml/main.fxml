@@ -33,6 +33,7 @@
             <tabs>
                 <Tab text="Artists"/>
                 <Tab text="Records"/>
+                <Tab text="Genres"/>
             </tabs>
         </TabPane>
     </center>
