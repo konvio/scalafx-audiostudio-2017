@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           prefHeight="400.0"
+           prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.112"
+           fx:controller="io.konv.audiostudio.controllers.RecordTabController">
+    <columns>
+        <TableColumn fx:id="title" prefWidth="75.0" text="Title"/>
+        <TableColumn fx:id="artist" prefWidth="75.0" text="Artist"/>
+        <TableColumn fx:id="price" prefWidth="75.0" text="Price"/>
+        <TableColumn fx:id="date" prefWidth="75.0" text="Date"/>
+    </columns>
+</TableView>

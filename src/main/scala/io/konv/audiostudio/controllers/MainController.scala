@@ -19,7 +19,10 @@ import scalafxml.core.macros.sfxml
 class MainController(val tabPane: TabPane) {
 
   val artistsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/table_artist.fxml"), null)
+  val recordsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/table_record.fxml"), null)
 
+  tabPane.getTabs.get(0).setContent(artistsLoader.load[Parent])
+  tabPane.getTabs.get(1).setContent(recordsLoader.load[Parent])
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
     result match {
@@ -32,12 +35,13 @@ class MainController(val tabPane: TabPane) {
   def recordSong(): Unit = new RecordSongDialog().showAndWait() match {
     case Some(Record(i, t, p, a, g, f)) => {
       DBManager.db.run(sqlu"INSERT INTO record(title, price, artist_id, genre_id, path) VALUES (${t},${p},${a},${g},${f})").onComplete {
-        case Success(v) => Platform.runLater(Alerts.info("Record Song", s"Song $t was successfully recorded"))
+        case Success(v) => {
+          recordsLoader.getController[RecordTabTrait].update()
+          Platform.runLater(Alerts.info("Record Song", s"Song $t was successfully recorded"))
+        }
         case Failure(v) => Alerts.error("Record Song", "Something went wrong")
       }
     }
     case None => ()
   }
-
-  tabPane.getTabs.get(0).setContent(artistsLoader.load[Parent]())
 }
