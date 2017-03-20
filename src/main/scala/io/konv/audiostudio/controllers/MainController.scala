@@ -31,6 +31,7 @@ class MainController(val tabPane: TabPane) {
     result match {
       case Some(v) => DBManager.db.run(sqlu"INSERT INTO artist(name) VALUES ('#$v')").onComplete {
         case Success(v) => ()
+        case Failure(v) => ()
       }
     }
   }
@@ -58,5 +59,6 @@ class MainController(val tabPane: TabPane) {
         case Failure(v) => Alerts.error("Record Song", "Something went wrong")
       }
     }
+    case None => ()
   }
 }

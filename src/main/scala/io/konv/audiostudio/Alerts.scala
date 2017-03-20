@@ -14,6 +14,8 @@ object Alerts {
 
   def error: (String, String) => Unit = alert(AlertType.Error)
 
+  def confirm: (String, String) => Unit = alert(AlertType.Confirmation)
+
   def alert(alertType: AlertType)(header: String, content: String): Unit = Platform.runLater(new Alert(alertType) {
     title = "Audio Studio Manager"
     headerText = header

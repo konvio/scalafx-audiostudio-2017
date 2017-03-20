@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToolBar?>
@@ -27,8 +28,11 @@
         <ToolBar styleClass="segmented-button-bar">
             <items>
                 <Button onAction="#addArtist" styleClass="first " text="Add Artist" />
+            <Separator orientation="VERTICAL" />
                 <Button styleClass="button" text="Release Album" />
+            <Separator orientation="VERTICAL" />
                 <Button onAction="#addRecord" styleClass="button" text="Record Song" />
+            <Separator orientation="VERTICAL" />
             <Button mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
             </items>
         </ToolBar>
