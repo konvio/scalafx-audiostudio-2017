@@ -3,8 +3,7 @@ package io.konv.audiostudio.controllers
 import java.sql.Date
 import javafx.collections.FXCollections
 
-import com.typesafe.scalalogging.Logger
-import io.konv.audiostudio.{Alerts, DBManager}
+import io.konv.audiostudio.DBManager
 import io.konv.audiostudio.Includes._
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
@@ -35,6 +34,7 @@ class RecordTabController(table: TableView[RecordTab],
   price.cellValueFactory = v => v.value.price.toString
   date.cellValueFactory = v => v.value.date.toString
   path.cellValueFactory = v => v.value.path
+
   update()
 
   override def update(): Unit = {
