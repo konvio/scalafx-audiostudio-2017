@@ -12,5 +12,6 @@
         <TableColumn fx:id="artist" prefWidth="75.0" text="Artist"/>
         <TableColumn fx:id="price" prefWidth="75.0" text="Price"/>
         <TableColumn fx:id="date" prefWidth="75.0" text="Date"/>
+        <TableColumn fx:id="path" prefWidth="75.0" text="Path"/>
     </columns>
 </TableView>
