@@ -41,7 +41,7 @@ class MainController(val tabPane: TabPane) {
     case Some(Record(i, t, p, a, g, f)) => {
       DBManager.db.run(sqlu"INSERT INTO record(title, price, artist_id, genre_id, path) VALUES (${t},${p},${a},${g},${f})").onComplete {
         case Success(v) => {
-          recordsLoader.getController[RecordTabTrait].update()
+          update()
           Platform.runLater(Alerts.info("Record Song", s"Song $t was successfully recorded"))
         }
         case Failure(v) => Alerts.error("Record Song", "Something went wrong")
@@ -54,7 +54,7 @@ class MainController(val tabPane: TabPane) {
     case Some(Genre(i, n, d)) => {
       DBManager.db.run(sqlu"INSERT INTO genre(name, description) VALUES (${n}, ${d})").onComplete {
         case Success(v) => {
-          genresLoader.getController[GenresTabTrait].update()
+          update()
           Platform.runLater(Alerts.info("Add Genre", s"Genre $n is successfully added"))
         }
         case Failure(v) => Alerts.error("Record Song", "Something went wrong")
@@ -66,7 +66,7 @@ class MainController(val tabPane: TabPane) {
   def addAlbum(): Unit = new AddAlbumDialog().showAndWait() match {
     case Some(Album(i, t, p)) => {
       DBManager.db.run(sqlu"INSERT INTO album(title, price) VALUES (${t}, ${p})").onComplete {
-        case Success(v) => ()
+        case Success(v) => update()
         case Failure(v) => Alerts.error("Record Song", "Something went wrong")
       }
     }
@@ -76,9 +76,16 @@ class MainController(val tabPane: TabPane) {
   def addSongToAlbum(): Unit = new AddSongToAlbumDialog().showAndWait() match {
     case Some(SongDialog(s, a)) => {
       DBManager.db.run(sqlu"INSERT INTO album_record(album_id, record_id) VALUES (${a}, ${s})").onComplete {
-        case Success(v) => ()
+        case Success(v) => update()
         case Failure(v) => ()
       }
     }
+  }
+
+  def update(): Unit = {
+    artistsLoader.getController[ArtistsTabTrait].update()
+    recordsLoader.getController[RecordTabTrait].update()
+    genresLoader.getController[GenresTabTrait].update()
+    albumsLoader.getController[AlbumsTabTrait].update()
   }
 }

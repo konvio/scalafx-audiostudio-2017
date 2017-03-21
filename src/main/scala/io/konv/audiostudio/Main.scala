@@ -16,6 +16,6 @@ object Main extends JFXApp {
       stylesheets = List(Main.getClass.getResource("/css/style.css").toExternalForm)
     }
     icons += new Image("img/icon.png")
-    minWidth = 600
+    minWidth = 875
   }
 }

@@ -17,7 +17,7 @@ import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait AlbumsTabTrait {
-  def update: Unit
+  def update(): Unit
 }
 
 case class AlbumsTabItem(id: Int, title: String, price: Int, date: Date, songsCount: Int)
