@@ -12,7 +12,7 @@ import scalafx.scene.control.{ButtonType, Dialog}
 import scalafx.scene.image.Image
 import scalafxml.core.FXMLLoader
 
-class RecordSongDialog extends Dialog[Record] {
+class AddRecordDialog extends Dialog[Record] {
 
   val loader = new FXMLLoader(Main.getClass.getResource("/fxml/dialog_add_record.fxml"), null)
 

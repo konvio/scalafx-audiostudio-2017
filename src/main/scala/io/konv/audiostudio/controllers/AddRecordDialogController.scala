@@ -50,7 +50,6 @@ class RecordSongController(val titleField: TextField,
   }
 
   DBManager.artists().onComplete {
-    case Success(v) => artistChoiceBox.items.set(FXCollections.observableList(v.asJava))
     case Failure(v) => ()
   }
 

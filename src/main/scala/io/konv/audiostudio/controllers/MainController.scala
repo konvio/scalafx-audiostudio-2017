@@ -2,7 +2,7 @@ package io.konv.audiostudio.controllers
 
 import javafx.scene.Parent
 
-import io.konv.audiostudio.dialogs.{AddArtistDialog, AddGenreDialog, RecordSongDialog}
+import io.konv.audiostudio.dialogs.{AddArtistDialog, AddGenreDialog, AddRecordDialog}
 import io.konv.audiostudio.models.{Genre, Record}
 import io.konv.audiostudio.{Alerts, DBManager, Main}
 import slick.jdbc.PostgresProfile.api._
@@ -30,13 +30,13 @@ class MainController(val tabPane: TabPane) {
     val result = new AddArtistDialog().showAndWait()
     result match {
       case Some(v) => DBManager.db.run(sqlu"INSERT INTO artist(name) VALUES ('#$v')").onComplete {
-        case Success(v) => ()
+        case Success(v) => artistsLoader.getController[ArtistsTabTrait].update()
         case Failure(v) => ()
       }
     }
   }
 
-  def addRecord(): Unit = new RecordSongDialog().showAndWait() match {
+  def addRecord(): Unit = new AddRecordDialog().showAndWait() match {
     case Some(Record(i, t, p, a, g, f)) => {
       DBManager.db.run(sqlu"INSERT INTO record(title, price, artist_id, genre_id, path) VALUES (${t},${p},${a},${g},${f})").onComplete {
         case Success(v) => {
