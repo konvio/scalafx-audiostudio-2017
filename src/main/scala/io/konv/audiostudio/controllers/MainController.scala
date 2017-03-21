@@ -2,7 +2,7 @@ package io.konv.audiostudio.controllers
 
 import javafx.scene.Parent
 
-import io.konv.audiostudio.dialogs.{AddAlbumDialog, AddArtistDialog, AddGenreDialog, AddRecordDialog}
+import io.konv.audiostudio.dialogs._
 import io.konv.audiostudio.models.{Album, Genre, Record}
 import io.konv.audiostudio.{Alerts, DBManager, Main}
 import slick.jdbc.PostgresProfile.api._
@@ -71,5 +71,14 @@ class MainController(val tabPane: TabPane) {
       }
     }
     case None => ()
+  }
+
+  def addSongToAlbum(): Unit = new AddSongToAlbumDialog().showAndWait() match {
+    case Some(SongDialog(s, a)) => {
+      DBManager.db.run(sqlu"INSERT INTO album_record(album_id, record_id) VALUES (${a}, ${s})").onComplete {
+        case Success(v) => ()
+        case Failure(v) => ()
+      }
+    }
   }
 }

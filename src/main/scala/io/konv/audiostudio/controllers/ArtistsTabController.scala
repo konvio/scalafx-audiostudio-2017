@@ -30,6 +30,7 @@ class ArtistsTabController(val tableView: TableView[Artist],
 
   tableView.onKeyPressed = k => k.getCode match {
     case KeyCode.DELETE => delete()
+    case KeyCode.F5 => update()
     case _ => ()
   }
 

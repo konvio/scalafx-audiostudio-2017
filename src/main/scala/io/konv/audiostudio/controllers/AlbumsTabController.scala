@@ -2,13 +2,14 @@ package io.konv.audiostudio.controllers
 
 import java.sql.Date
 import javafx.collections.FXCollections
+import javafx.scene.input.KeyCode
 
-import io.konv.audiostudio.DBManager
+import io.konv.audiostudio.{Alerts, DBManager}
 import io.konv.audiostudio.Includes._
 import slick.jdbc.GetResult
 
 import scala.util.{Failure, Success}
-import scalafx.scene.control.{TableColumn, TableView}
+import scalafx.scene.control.{ButtonType, TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 import slick.jdbc.PostgresProfile.api._
 
@@ -35,6 +36,13 @@ class AlbumsTabController(table: TableView[AlbumsTabItem],
 
   update()
 
+  table.onKeyPressed = k => k.getCode match {
+    case KeyCode.DELETE => delete()
+    case KeyCode.F5 => update()
+    case _ => ()
+  }
+
+
   override def update(): Unit = {
     implicit val getResult = GetResult[AlbumsTabItem](r => AlbumsTabItem(r.<<, r.<<, r.<<, r.<<, r.<<))
     val query = sql"SELECT album.id, album.title, album.price,album.released_date, 0 FROM album".as[AlbumsTabItem]
@@ -44,5 +52,18 @@ class AlbumsTabController(table: TableView[AlbumsTabItem],
     }
   }
 
-
+  private def delete(): Unit = {
+    if (table.getSelectionModel.isEmpty) return
+    val album = table.getSelectionModel.getSelectedItem
+    Alerts.confirm("Delete Album", s"Do you really want to remove artist ${album.title}?") match {
+      case Some(ButtonType.OK) => {
+        val query = sqlu"DELETE FROM album WHERE id = ${album.id}"
+        DBManager.db.run(query).onComplete {
+          case Success(v) => update()
+          case Failure(v) => ()
+        }
+      }
+      case _ => ()
+    }
+  }
 }
