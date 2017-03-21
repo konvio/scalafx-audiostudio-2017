@@ -29,8 +29,8 @@ CREATE TABLE album (
 
 CREATE TABLE album_record (
   id           SERIAL PRIMARY KEY,
-  record_id    INTEGER REFERENCES record,
-  album_id     INTEGER REFERENCES album,
+  record_id    INTEGER REFERENCES record ON DELETE CASCADE ,
+  album_id     INTEGER REFERENCES album ON DELETE CASCADE ,
   track_number INTEGER DEFAULT 0,
   UNIQUE (record_id, album_id)
 );

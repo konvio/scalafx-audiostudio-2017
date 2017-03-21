@@ -3,14 +3,15 @@ package io.konv.audiostudio.controllers
 import javafx.collections.FXCollections
 import javafx.scene.input.KeyCode
 
-import io.konv.audiostudio.{Alerts, DBManager}
 import io.konv.audiostudio.Includes._
+import io.konv.audiostudio.{Alerts, DBManager}
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
+import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.control.{ButtonType, TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
@@ -28,6 +29,27 @@ class GenresTabController(table: TableView[GenresTabRow],
 
   genre.cellValueFactory = v => v.value.genre
   description.cellValueFactory = v => v.value.description
+
+  table.editable = true
+
+  genre.editable = true
+  genre.cellFactory = TextFieldTableCell.forTableColumn[GenresTabRow]()
+  genre.onEditCommit = v => {
+    if (v.getNewValue.length == 0) Alerts.info("Edit Genre", "Title should not be empty")
+    else DBManager.db.run(sqlu"UPDATE genre SET name = ${v.getNewValue} WHERE id = ${v.getRowValue.id}").onComplete {
+      case Success(v) => Alerts.info("Edit Genre", "Name changed")
+      case Failure(v) => Alerts.info("Edit Genre", "Something went wrong")
+    }
+  }
+
+  description.editable = true
+  description.cellFactory = TextFieldTableCell.forTableColumn[GenresTabRow]()
+  description.onEditCommit = v => {
+    DBManager.db.run(sqlu"UPDATE genre SET description = ${v.getNewValue} WHERE id = ${v.getRowValue.id}").onComplete {
+      case Success(v) => Alerts.info("Edit Genre", "Description changed")
+      case Failure(v) => Alerts.info("Edit Genre", "Something went wrong")
+    }
+  }
 
   update()
 
