@@ -29,7 +29,7 @@
             <items>
                 <Button onAction="#addArtist" styleClass="first " text="Add Artist" />
             <Separator orientation="VERTICAL" />
-                <Button styleClass="button" text="Release Album" />
+                <Button styleClass="button" text="Release Album" onAction="#addAlbum" />
             <Separator orientation="VERTICAL" />
                 <Button onAction="#addRecord" styleClass="button" text="Record Song" />
             <Separator orientation="VERTICAL" />

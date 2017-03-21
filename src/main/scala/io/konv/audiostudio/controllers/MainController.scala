@@ -2,8 +2,8 @@ package io.konv.audiostudio.controllers
 
 import javafx.scene.Parent
 
-import io.konv.audiostudio.dialogs.{AddArtistDialog, AddGenreDialog, AddRecordDialog}
-import io.konv.audiostudio.models.{Genre, Record}
+import io.konv.audiostudio.dialogs.{AddAlbumDialog, AddArtistDialog, AddGenreDialog, AddRecordDialog}
+import io.konv.audiostudio.models.{Album, Genre, Record}
 import io.konv.audiostudio.{Alerts, DBManager, Main}
 import slick.jdbc.PostgresProfile.api._
 
@@ -56,6 +56,16 @@ class MainController(val tabPane: TabPane) {
           genresLoader.getController[GenresTabTrait].update()
           Platform.runLater(Alerts.info("Add Genre", s"Genre $n is successfully added"))
         }
+        case Failure(v) => Alerts.error("Record Song", "Something went wrong")
+      }
+    }
+    case None => ()
+  }
+
+  def addAlbum(): Unit = new AddAlbumDialog().showAndWait() match {
+    case Some(Album(i, t, p)) => {
+      DBManager.db.run(sqlu"INSERT INTO album(title, price) VALUES (${t}, ${p})").onComplete {
+        case Success(v) => ()
         case Failure(v) => Alerts.error("Record Song", "Something went wrong")
       }
     }

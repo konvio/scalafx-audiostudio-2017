@@ -1,6 +1,6 @@
 package io.konv.audiostudio
 
-import io.konv.audiostudio.models.{Artist, Genre}
+import io.konv.audiostudio.models.{Artist, Genre, Record}
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
 
@@ -19,6 +19,12 @@ object DBManager {
   def genres(): Future[Vector[Genre]] = {
     implicit val getGenre = GetResult[Genre](r => Genre(r.<<, r.<<, r.<<))
     val query = sql"SELECT id, name, description FROM genre".as[Genre]
+    db.run(query)
+  }
+
+  def records(): Future[Vector[Record]] = {
+    implicit val getResult = GetResult[Record](r => Record(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
+    val query = sql"SELECT id, title, price, artist_id, genre_id, path FROM record".as[Record]
     db.run(query)
   }
 }
