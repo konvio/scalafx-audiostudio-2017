@@ -4,9 +4,8 @@ import java.sql.Date
 import javafx.collections.FXCollections
 import javafx.scene.input.KeyCode
 
-import io.konv.audiostudio.{Alerts, DBManager}
 import io.konv.audiostudio.Includes._
-import io.konv.audiostudio.models.Artist
+import io.konv.audiostudio.{Alerts, DBManager}
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
 

@@ -15,6 +15,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scalafx.scene.control.cell.TextFieldTableCell
 
 trait AlbumsTabTrait {
   def update(): Unit
@@ -28,6 +29,33 @@ class AlbumsTabController(table: TableView[AlbumsTabItem],
                           priceColumn: TableColumn[AlbumsTabItem, String],
                           dateColumn: TableColumn[AlbumsTabItem, String],
                           songsCountColumn: TableColumn[AlbumsTabItem, String]) extends AlbumsTabTrait {
+
+  table.editable = true
+
+  titleColumn.editable = true
+  titleColumn.cellFactory = TextFieldTableCell.forTableColumn[AlbumsTabItem]()
+  titleColumn.onEditCommit = v => {
+    if (v.getNewValue.length == 0) Alerts.info("Edit Album", "Title should not be empty")
+    else DBManager.db.run(sqlu"UPDATE album SET title = ${v.getNewValue} WHERE id = ${v.getRowValue.id}").onComplete {
+      case Success(v) => Alerts.info("Edit Album", "Title changed")
+      case Failure(v) => Alerts.info("Edit Album", "Something went wrong")
+    }
+  }
+
+  priceColumn.editable = true
+  priceColumn.cellFactory = TextFieldTableCell.forTableColumn[AlbumsTabItem]()
+  priceColumn.onEditCommit = v => {
+    try {
+      val p = v.getNewValue.toInt
+      DBManager.db.run(sqlu"UPDATE album SET price = ${p} WHERE id = ${v.getRowValue.id}").onComplete {
+        case Success(v) => Alerts.info("Edit Album", "Album changed")
+        case Failure(v) => Alerts.info("Edit Album", "Something went wrong")
+      }
+    } catch {
+      case v: NumberFormatException => Alerts.info("Edit Record", "Price should be numeric")
+      case v: Throwable => ()
+    }
+  }
 
   titleColumn.cellValueFactory = v => v.value.title
   priceColumn.cellValueFactory = v => v.value.price.toString
