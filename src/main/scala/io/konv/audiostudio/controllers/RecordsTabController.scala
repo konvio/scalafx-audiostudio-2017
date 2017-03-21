@@ -6,12 +6,14 @@ import javafx.scene.input.KeyCode
 
 import io.konv.audiostudio.{Alerts, DBManager}
 import io.konv.audiostudio.Includes._
+import io.konv.audiostudio.models.Artist
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
+import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.control.{ButtonType, TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
@@ -29,6 +31,32 @@ class RecordTabController(table: TableView[RecordTab],
                           date: TableColumn[RecordTab, String],
                           path: TableColumn[RecordTab, String]
                          ) extends RecordTabTrait {
+  table.editable = true
+
+  title.editable = true
+  title.cellFactory = TextFieldTableCell.forTableColumn[RecordTab]()
+  title.onEditCommit = v => {
+    if (v.getNewValue.length == 0) Alerts.info("Edit Record", "Title should not be empty")
+    else DBManager.db.run(sqlu"UPDATE record SET title = ${v.getNewValue} WHERE id = ${v.getRowValue.id}").onComplete {
+      case Success(v) => Alerts.info("Edit Record", "Title changed")
+      case Failure(v) => Alerts.info("Edit Record", "Something went wrong")
+    }
+  }
+
+  price.editable = true
+  price.cellFactory = TextFieldTableCell.forTableColumn[RecordTab]()
+  price.onEditCommit = v => {
+    try {
+      val p = v.getNewValue.toInt
+      DBManager.db.run(sqlu"UPDATE record SET price = ${p} WHERE id = ${v.getRowValue.id}").onComplete {
+        case Success(v) => Alerts.info("Edit Record", "Price changed")
+        case Failure(v) => Alerts.info("Edit Record", "Something went wrong")
+      }
+    } catch {
+      case v: NumberFormatException => Alerts.info("Edit Record", "Price should be numeric")
+      case v: Throwable => ()
+    }
+  }
 
   title.cellValueFactory = v => v.value.title
   artist.cellValueFactory = v => v.value.artist
