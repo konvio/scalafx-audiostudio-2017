@@ -88,4 +88,8 @@ class MainController(val tabPane: TabPane) {
     genresLoader.getController[GenresTabTrait].update()
     albumsLoader.getController[AlbumsTabTrait].update()
   }
+
+  def close(): Unit = Platform.exit()
+
+  def about(): Unit = Alerts.info("Audio Studio Manager", "Copyright Vitaliy Kononeneko K-24 © 2017")
 }
