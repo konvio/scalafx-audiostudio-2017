@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+           minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="io.konv.audiostudio.controllers.AlbumsTabController">
+    <columns>
+        <TableColumn fx:id="titleColumn" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Title"/>
+        <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price"/>
+        <TableColumn fx:id="dateColumn" prefWidth="97.0" text="Released Date"/>
+        <TableColumn fx:id="songsCountColumn" prefWidth="122.0" text="Number of Songs"/>
+    </columns>
+</TableView>
