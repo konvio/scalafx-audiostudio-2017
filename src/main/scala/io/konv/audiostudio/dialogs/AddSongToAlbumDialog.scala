@@ -4,13 +4,12 @@ import javafx.scene.Parent
 import javafx.stage.Stage
 
 import io.konv.audiostudio.Main
-import io.konv.audiostudio.controllers.{AddGenreForm, AddSongToAlbumTrait}
+import io.konv.audiostudio.controllers.AddSongToAlbumTrait
 
 import scalafx.Includes._
 import scalafx.scene.control.{ButtonType, Dialog}
 import scalafx.scene.image.Image
 import scalafxml.core.FXMLLoader
-import scalafxml.core.macros.sfxml
 
 case class SongDialog(songId: Int, albumId: Int)
 

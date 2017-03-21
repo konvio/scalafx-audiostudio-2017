@@ -10,6 +10,7 @@ import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scalafx.scene.control.ChoiceBox
+import scalafx.util.StringConverter
 import scalafxml.core.macros.sfxml
 
 trait AddSongToAlbumTrait {
@@ -19,6 +20,18 @@ trait AddSongToAlbumTrait {
 @sfxml
 class AddSongToAlbumController(albumChoiceBox: ChoiceBox[Album],
                                recordChoiceBox: ChoiceBox[Record]) extends AddSongToAlbumTrait {
+
+  albumChoiceBox.converter = new StringConverter[Album] {
+    override def fromString(string: String) = ???
+
+    override def toString(t: Album): String = t.title
+  }
+
+  recordChoiceBox.converter = new StringConverter[Record] {
+    override def fromString(string: String) = ???
+
+    override def toString(t: Record) = t.title
+  }
 
   DBManager.albums().onComplete {
     case Success(v) => albumChoiceBox.items.set(FXCollections.observableList(v.asJava))
