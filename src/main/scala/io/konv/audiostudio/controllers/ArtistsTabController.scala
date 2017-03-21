@@ -11,6 +11,7 @@ import slick.jdbc.PostgresProfile.api._
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
+import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.control.{ButtonType, TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
@@ -27,6 +28,18 @@ class ArtistsTabController(val tableView: TableView[Artist],
   id.cellValueFactory = v => v.value.id.toString
   name.cellValueFactory = v => v.value.name
   date.cellValueFactory = v => v.value.date.toString
+
+  tableView.editable = true
+  name.editable = true
+  name.cellFactory = TextFieldTableCell.forTableColumn[Artist]()
+  name.onEditCommit = v => {
+    v.getRowValue.id
+    if (v.getNewValue.length == 0) Alerts.info("Edit Artist", "Name should not be empty")
+    else DBManager.db.run(sqlu"UPDATE artist SET name = ${v.getNewValue} WHERE id = ${v.getRowValue.id}").onComplete {
+      case Success(v) => Alerts.info("Edit Artist", "Name changed")
+      case Failure(v) => Alerts.info("Edit Artist", "Something went wrong")
+    }
+  }
 
   tableView.onKeyPressed = k => k.getCode match {
     case KeyCode.DELETE => delete()
