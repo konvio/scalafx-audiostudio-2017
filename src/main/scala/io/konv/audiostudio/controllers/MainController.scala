@@ -90,6 +90,7 @@ class MainController(val tabPane: TabPane) {
     recordsLoader.getController[RecordTabTrait].update()
     genresLoader.getController[GenresTabTrait].update()
     albumsLoader.getController[AlbumsTabTrait].update()
+    plotLoader.getController[PlotTabControllerTrait].update()
   }
 
   def close(): Unit = Platform.exit()

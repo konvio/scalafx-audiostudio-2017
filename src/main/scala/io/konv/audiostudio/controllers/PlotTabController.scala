@@ -3,11 +3,12 @@ package io.konv.audiostudio.controllers
 import io.konv.audiostudio.DBManager
 import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scalafx.scene.chart
 import scalafx.scene.chart._
+import scalafx.scene.input.KeyCode
 import scalafxml.core.macros.sfxml
 
 case class MonthIncome(income: Int, month: Int, year: Int)
@@ -23,6 +24,11 @@ class PlotTabController(plot: LineChart[String, Number],
 
   plot.setTitle("Income")
   update()
+
+  plot.onKeyPressed = v => v.getCode match {
+    case KeyCode.F5 => update()
+    case _ => ()
+  }
 
   override def update(): Unit = {
     implicit val getResult = GetResult[MonthIncome](r => MonthIncome(r.<<, r.<<, r.<<))

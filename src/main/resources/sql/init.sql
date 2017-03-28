@@ -53,8 +53,8 @@ CREATE VIEW report AS
     EXTRACT(YEAR FROM date)  AS year
   FROM income
   GROUP BY MONTH, YEAR
-  ORDER BY year DESC, month DESC
-  LIMIT 12;
+  ORDER BY year, month
+  LIMIT 60;
 
 
 
