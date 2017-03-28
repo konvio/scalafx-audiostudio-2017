@@ -53,6 +53,7 @@
                 <Tab text="Records"/>
                 <Tab text="Genres"/>
                 <Tab text="Albums"/>
+                <Tab text="Income"/>
             </tabs>
         </TabPane>
     </center>

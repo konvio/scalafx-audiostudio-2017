@@ -2,12 +2,20 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 
-<TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0"
-           prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="io.konv.audiostudio.controllers.GenresTabController">
-    <columns>
-        <TableColumn fx:id="genre" prefWidth="125.0" text="Genre"/>
-        <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Description"/>
-    </columns>
-</TableView>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controllers.GenresTabController">
+    <center>
+        <TableView fx:id="table">
+            <columns>
+                <TableColumn fx:id="genre" prefWidth="125.0" text="Genre" />
+                <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Description" />
+            </columns>
+        </TableView>
+    </center>
+   <bottom>
+      <TextField fx:id="searchField" BorderPane.alignment="CENTER" />
+   </bottom>
+
+</BorderPane>

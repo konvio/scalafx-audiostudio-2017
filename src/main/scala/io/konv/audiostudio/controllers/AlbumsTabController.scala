@@ -42,6 +42,8 @@ class AlbumsTabController(table: TableView[AlbumsTabItem],
     }
   }
 
+  songsCountColumn.visible = false
+
   priceColumn.editable = true
   priceColumn.cellFactory = TextFieldTableCell.forTableColumn[AlbumsTabItem]()
   priceColumn.onEditCommit = v => {

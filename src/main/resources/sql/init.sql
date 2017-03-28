@@ -29,11 +29,32 @@ CREATE TABLE album (
 
 CREATE TABLE album_record (
   id           SERIAL PRIMARY KEY,
-  record_id    INTEGER REFERENCES record ON DELETE CASCADE ,
-  album_id     INTEGER REFERENCES album ON DELETE CASCADE ,
+  record_id    INTEGER REFERENCES record ON DELETE CASCADE,
+  album_id     INTEGER REFERENCES album ON DELETE CASCADE,
   track_number INTEGER DEFAULT 0,
   UNIQUE (record_id, album_id)
 );
+
+CREATE VIEW report AS
+  WITH income AS (
+    SELECT
+      price,
+      released_date AS date
+    FROM record
+    UNION ALL
+    SELECT
+      price,
+      released_date AS date
+    FROM album
+  )
+  SELECT
+    sum(price)               AS income,
+    EXTRACT(MONTH FROM date) AS month,
+    EXTRACT(YEAR FROM date)  AS year
+  FROM income
+  GROUP BY MONTH, YEAR
+  ORDER BY year DESC, month DESC
+  LIMIT 12;
 
 
 

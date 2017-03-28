@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scalafx.scene.control.cell.TextFieldTableCell
-import scalafx.scene.control.{ButtonType, TableColumn, TableView}
+import scalafx.scene.control.{ButtonType, TableColumn, TableView, TextField}
 import scalafxml.core.macros.sfxml
 
 case class GenresTabRow(id: Int, genre: String, description: String)
@@ -24,7 +24,8 @@ trait GenresTabTrait {
 @sfxml
 class GenresTabController(table: TableView[GenresTabRow],
                           genre: TableColumn[GenresTabRow, String],
-                          description: TableColumn[GenresTabRow, String]
+                          description: TableColumn[GenresTabRow, String],
+                          searchField: TextField
                          ) extends GenresTabTrait {
 
   genre.cellValueFactory = v => v.value.genre
@@ -51,6 +52,8 @@ class GenresTabController(table: TableView[GenresTabRow],
     }
   }
 
+  searchField.onAction = v => filter()
+
   update()
 
   table.onKeyPressed = k => k.getCode match {
@@ -59,11 +62,16 @@ class GenresTabController(table: TableView[GenresTabRow],
     case _ => ()
   }
 
+  var items: Vector[GenresTabRow] = null
+
   override def update(): Unit = {
     implicit val getResult = GetResult[GenresTabRow](r => GenresTabRow(r.<<, r.<<, r.<<))
     val query = sql"SELECT id, name, description FROM genre".as[GenresTabRow]
     DBManager.db.run(query).onComplete {
-      case Success(v) => table.items.set(FXCollections.observableList(v.asJava))
+      case Success(v) => {
+        items = v
+        table.items.set(FXCollections.observableList(v.asJava))
+      }
       case Failure(v) => ()
     }
   }
@@ -81,5 +89,17 @@ class GenresTabController(table: TableView[GenresTabRow],
       }
       case _ => ()
     }
+  }
+
+  private def filter(): Unit = {
+    val query = searchField.getText.toLowerCase()
+    if (query.length == 0) update()
+    else table.items.set(FXCollections.observableList(items.filter(v => {
+      var result = true
+      val words = query.split("\\W+")
+      val text = v.description.toLowerCase()
+      for (w <- words) if (!text.contains(w)) result = false
+      result
+    }).asJava))
   }
 }
