@@ -8,7 +8,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scalafx.scene.chart
 import scalafx.scene.chart._
-import scalafx.scene.input.KeyCode
+import javafx.scene.input.KeyCode
+
+import scalafx.application.Platform
 import scalafxml.core.macros.sfxml
 
 case class MonthIncome(income: Int, month: Int, year: Int)
@@ -25,6 +27,8 @@ class PlotTabController(plot: LineChart[String, Number],
   plot.setTitle("Income")
   update()
 
+  plot.focusTraversable = true
+
   plot.onKeyPressed = v => v.getCode match {
     case KeyCode.F5 => update()
     case _ => ()
@@ -34,7 +38,7 @@ class PlotTabController(plot: LineChart[String, Number],
     implicit val getResult = GetResult[MonthIncome](r => MonthIncome(r.<<, r.<<, r.<<))
     val query = sql"SELECT income, month, year FROM report".as[MonthIncome]
     DBManager.db.run(query).onComplete {
-      case Success(v) => populateData(v)
+      case Success(v) => Platform.runLater(populateData(v))
       case Failure(v) => ()
     }
   }

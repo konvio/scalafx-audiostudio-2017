@@ -1,6 +1,7 @@
 package io.konv.audiostudio.controllers
 
 import javafx.scene.Parent
+import javafx.scene.input.KeyCode
 
 import io.konv.audiostudio.dialogs._
 import io.konv.audiostudio.models.{Album, Genre, Record}
@@ -11,6 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scalafx.application.Platform
 import scalafx.scene.control.TabPane
+import scalafx.scene.control.TableColumn.CellEditEvent
 import scalafxml.core.FXMLLoader
 import scalafxml.core.macros.sfxml
 
@@ -29,6 +31,11 @@ class MainController(val tabPane: TabPane) {
   tabPane.getTabs.get(2).setContent(genresLoader.load[Parent])
   tabPane.getTabs.get(3).setContent(albumsLoader.load[Parent])
   tabPane.getTabs.get(4).setContent(plotLoader.load[Parent])
+
+  tabPane.onKeyPressed = v => v.getCode match {
+    case KeyCode.F5 => update()
+    case _ =>
+  }
 
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
