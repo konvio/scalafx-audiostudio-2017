@@ -33,4 +33,5 @@ object DBManager {
     val query = sql"SELECT album.id, album.title, album.price FROM album".as[Album]
     db.run(query)
   }
+
 }

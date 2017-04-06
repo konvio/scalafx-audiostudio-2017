@@ -5,7 +5,7 @@ import javafx.scene.input.KeyCode
 
 import io.konv.audiostudio.dialogs._
 import io.konv.audiostudio.models.{Album, Genre, Record}
-import io.konv.audiostudio.{Alerts, DBManager, Main}
+import io.konv.audiostudio.{Alerts, DBManager, Main, QueriesController}
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -103,4 +103,16 @@ class MainController(val tabPane: TabPane) {
   def close(): Unit = Platform.exit()
 
   def about(): Unit = Alerts.info("Audio Studio Manager", "Copyright Vitaliy Kononeneko K-24 © 2017")
+
+  def query1() = QueriesController.query1()
+
+  def query2() = QueriesController.query2()
+
+  def query3() = QueriesController.query3()
+
+  def query4() = QueriesController.query4()
+
+  def query5() = QueriesController.query5()
+
+  def query6() = QueriesController.query6()
 }

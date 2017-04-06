@@ -27,4 +27,17 @@ object Alerts {
     contentText = content
     dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
   }.showAndWait())
+
+  def showQueryResult(result: Vector[String], header: String): Unit = {
+    var content = ""
+    for (v <- result) content += (v + "\n")
+    if (content.length == 0) content = "Empty query"
+    val dialog = new Alert(AlertType.Information) {
+      title = "Query result"
+      headerText = header
+      contentText = content
+      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
+    }
+    dialog.showAndWait()
+  }
 }

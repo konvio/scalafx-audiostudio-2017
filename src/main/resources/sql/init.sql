@@ -36,7 +36,7 @@ CREATE TABLE album_record (
 );
 
 CREATE VIEW report AS
-  WITH income AS (
+  incomeWITH  AS (
     SELECT
       price,
       released_date AS date

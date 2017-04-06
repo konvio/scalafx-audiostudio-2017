@@ -28,6 +28,14 @@
             <Menu mnemonicParsing="false" text="Help">
                 <MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
             </Menu>
+            <Menu mnemonicParsing="false" text="Queries">
+                <MenuItem onAction="#query1" text="Назви виконавців що виконують в жанрі"/>
+                <MenuItem onAction="#query2" text="Виконавці альбому"/>
+                <MenuItem onAction="#query3" text="Назви виконавців що виконують в жанрі"/>
+                <MenuItem onAction="#query4" text="Назви виконавців що виконують в жанрі"/>
+                <MenuItem onAction="#query5" text="Назви виконавців що виконують в жанрі"/>
+                <MenuItem onAction="#query6" text="Назви виконавців що виконують в жанрі"/>
+            </Menu>
         </MenuBar>
     </top>
     <bottom>
