@@ -12,8 +12,8 @@ object QueriesController {
 
     val dialog = new TextInputDialog() {
       title = "Query Input"
-      headerText = "Назви виконавців, які виконують композиції у заданому жанрі"
-      contentText = "Жанр"
+      headerText = "Artists by Genre"
+      contentText = "Genre"
     }
 
     dialog.showAndWait() match {
@@ -37,8 +37,8 @@ object QueriesController {
 
     val dialog = new TextInputDialog() {
       title = "Query Input"
-      headerText = "Назви виконавців, що виконують заданий альбом"
-      contentText = "Альбом"
+      headerText = "Artists by Album"
+      contentText = "Album"
     }
 
     dialog.showAndWait() match {
@@ -63,22 +63,21 @@ object QueriesController {
   def query3(): Unit = {
 
     val dialog = new TextInputDialog() {
-      title = "Query Input"
-      headerText = "Назви виконавців, що не виконують заданий альбом"
-      contentText = "Альбом"
+      title = "Query Form"
+      headerText = "Artists by Genre Inverse"
+      contentText = "Genre"
     }
 
     dialog.showAndWait() match {
       case Some(input) => {
         val query =
-          sql""" WITH artists_of_album AS (
+          sql""" WITH artists_of_genre AS (
                     SELECT record.artist_id AS id
-                    FROM record JOIN album_record ON record.id = album_record.record_id
-                                JOIN album ON album_record.album_id = album.id
-                    WHERE album.title = '#$input')
+                    FROM record JOIN genre ON record.genre_id = genre.id
+                    WHERE genre.name = '#$input')
                  SELECT artist.name
                   FROM artist
-                  WHERE artist.id NOT IN (SELECT id FROM artists_of_album) ;
+                  WHERE artist.id NOT IN (SELECT id FROM artists_of_genre) ;
             """.as[String]
         DBManager.db.run(query).onComplete {
           case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 2"))
