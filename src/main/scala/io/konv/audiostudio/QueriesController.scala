@@ -89,7 +89,7 @@ object QueriesController {
     }
   }
 
-  def query4(): Unit = ???
+  def query4(): Unit = Alerts.chooseArtist("Hello")
 
   def query5(): Unit = ???
 

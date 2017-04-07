@@ -2,13 +2,19 @@ package io.konv.audiostudio
 
 import javafx.stage.Stage
 
+import io.konv.audiostudio.models.Artist
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 import scalafx.Includes._
 import scalafx.application.Platform
-import scalafx.scene.control.{Alert, ButtonType}
 import scalafx.scene.control.Alert.AlertType
+import scalafx.scene.control.{Alert, ButtonType, ChoiceDialog}
 import scalafx.scene.image.Image
 
 object Alerts {
+
+  var artists: Vector[Artist] = null
 
   def info: (String, String) => Unit = alert(AlertType.Information)
 
@@ -39,5 +45,22 @@ object Alerts {
       dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
     }
     dialog.showAndWait()
+  }
+
+  def chooseArtist(description: String): Unit = {
+    val dialog = new ChoiceDialog(artists.headOption, artists) {
+      title = "Query"
+      headerText = description
+      contentText = "Artist"
+      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
+    }
+    dialog.showAndWait()
+  }
+
+  def update(): Unit = {
+    DBManager.artists().onComplete {
+      case Success(v) => artists = v
+      case Failure(v) => ()
+    }
   }
 }

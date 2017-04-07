@@ -12,7 +12,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scalafx.application.Platform
 import scalafx.scene.control.TabPane
-import scalafx.scene.control.TableColumn.CellEditEvent
 import scalafxml.core.FXMLLoader
 import scalafxml.core.macros.sfxml
 
@@ -36,6 +35,8 @@ class MainController(val tabPane: TabPane) {
     case KeyCode.F5 => update()
     case _ =>
   }
+
+  update()
 
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
@@ -98,6 +99,7 @@ class MainController(val tabPane: TabPane) {
     genresLoader.getController[GenresTabTrait].update()
     albumsLoader.getController[AlbumsTabTrait].update()
     plotLoader.getController[PlotTabControllerTrait].update()
+    Alerts.update()
   }
 
   def close(): Unit = Platform.exit()
