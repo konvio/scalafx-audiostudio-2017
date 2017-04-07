@@ -47,15 +47,13 @@ object Alerts {
     dialog.showAndWait()
   }
 
-  def chooseArtist(description: String): Unit = {
-    val dialog = new ChoiceDialog(artists.headOption, artists) {
-      title = "Query"
-      headerText = description
-      contentText = "Artist"
-      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
-    }
-    dialog.showAndWait()
+  def chooseArtistDialog(description: String): ChoiceDialog[Artist] = new ChoiceDialog[Artist](artists.head, artists) {
+    title = "Query"
+    headerText = description
+    contentText = "Artist"
+    dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
   }
+
 
   def update(): Unit = {
     DBManager.artists().onComplete {

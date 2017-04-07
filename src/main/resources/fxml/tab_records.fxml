@@ -3,12 +3,15 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.konv.audiostudio.controllers.RecordTabController">
+<TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0"
+           prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="io.konv.audiostudio.controllers.RecordTabController">
     <columns>
-        <TableColumn fx:id="title" prefWidth="75.0" text="Title" />
-        <TableColumn fx:id="artist" prefWidth="75.0" text="Artist" />
-        <TableColumn fx:id="price" prefWidth="75.0" text="Price" />
-        <TableColumn fx:id="date" prefWidth="75.0" text="Date" />
-        <TableColumn fx:id="path" prefWidth="75.0" text="Path" />
+        <TableColumn fx:id="title" prefWidth="75.0" text="Title"/>
+        <TableColumn fx:id="artist" prefWidth="75.0" text="Artist"/>
+        <TableColumn fx:id="price" prefWidth="75.0" text="Price"/>
+        <TableColumn fx:id="genre" prefWidth="75.0" text="Genre"/>
+        <TableColumn fx:id="date" prefWidth="75.0" text="Date"/>
+        <TableColumn fx:id="path" prefWidth="75.0" text="Path"/>
     </columns>
 </TableView>

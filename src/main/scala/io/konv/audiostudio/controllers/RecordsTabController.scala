@@ -16,7 +16,7 @@ import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.control.{ButtonType, TableColumn, TableView}
 import scalafxml.core.macros.sfxml
 
-case class RecordTab(id: Int, title: String, price: Int, date: Date, path: String, artist: String)
+case class RecordTab(id: Int, title: String, price: Int, genre: String, date: Date, path: String, artist: String)
 
 trait RecordTabTrait {
   def update(): Unit
@@ -27,6 +27,7 @@ class RecordTabController(table: TableView[RecordTab],
                           title: TableColumn[RecordTab, String],
                           artist: TableColumn[RecordTab, String],
                           price: TableColumn[RecordTab, String],
+                          genre: TableColumn[RecordTab, String],
                           date: TableColumn[RecordTab, String],
                           path: TableColumn[RecordTab, String]
                          ) extends RecordTabTrait {
@@ -60,6 +61,7 @@ class RecordTabController(table: TableView[RecordTab],
   title.cellValueFactory = v => v.value.title
   artist.cellValueFactory = v => v.value.artist
   price.cellValueFactory = v => v.value.price.toString
+  genre.cellValueFactory = v => v.value.genre
   date.cellValueFactory = v => v.value.date.toString
   path.cellValueFactory = v => v.value.path
 
@@ -72,10 +74,11 @@ class RecordTabController(table: TableView[RecordTab],
   }
 
   override def update(): Unit = {
-    implicit val getResult = GetResult(r => RecordTab(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
+    implicit val getResult = GetResult(r => RecordTab(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
     val query = sql"""
-                  SELECT record.id, record.title, record.price, record.released_date, record.path, artist.name
+                  SELECT record.id, record.title, record.price, genre.name, record.released_date, record.path, artist.name
                   FROM record INNER JOIN artist ON record.artist_id = artist.id
+                              INNER JOIN genre ON record.genre_id = genre.id
       """.as[RecordTab]
     DBManager.db.run(query).onComplete {
       case Success(v) => table.items.set(FXCollections.observableList(v.asJava))

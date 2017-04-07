@@ -1,5 +1,6 @@
 package io.konv.audiostudio
 
+import io.konv.audiostudio.models.Artist
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -89,7 +90,27 @@ object QueriesController {
     }
   }
 
-  def query4(): Unit = Alerts.chooseArtist("Hello")
+  def query4(): Unit = {
+    Alerts.chooseArtistDialog("Artists with exactly similar genres").showAndWait() match {
+      case Some(Artist(id, name, date)) => {
+        val query =
+          sql"""
+                  SELECT artist.name
+                  FROM artist
+                  GROUP BY artist.id
+                  HAVING artist.id = ${id} OR 2 = ALL(
+                      SELECT count(DISTINCT artist.id)
+                      FROM record
+                      WHERE record.artist_id = artist.id OR record.artist_id = ${id}
+                      GROUP BY record.genre_id);
+          """.as[String]
+        DBManager.db.run(query).onComplete {
+          case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 4"))
+          case Failure(v) => ()
+        }
+      }
+    }
+  }
 
   def query5(): Unit = ???
 
