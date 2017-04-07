@@ -4,7 +4,7 @@ import io.konv.audiostudio.models.Artist
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success}-
 import scalafx.application.Platform
 import scalafx.scene.control.TextInputDialog
 
@@ -91,7 +91,7 @@ object QueriesController {
   }
 
   def query4(): Unit = {
-    Alerts.chooseArtistDialog("Artists with exactly similar genres").showAndWait() match {
+    Alerts.chooseArtistDialog("Artists with exactly similar genres (=)").showAndWait() match {
       case Some(Artist(id, name, date)) => {
         val query =
           sql"""
@@ -112,7 +112,52 @@ object QueriesController {
     }
   }
 
-  def query5(): Unit = ???
+  def query5(): Unit = {
+    Alerts.chooseArtistDialog("Artists with only genres (<=)").showAndWait() match {
+      case Some(Artist(id, name, date)) => {
+        val query =
+          sql"""  SELECT artist.name
+                  FROM artist
+                  WHERE (SELECT count(DISTINCT record.genre_id)
+                         FROM record
+                         WHERE record.artist_id = artist.id)
+                         =
+                         (SELECT count(genre_id) OVER()
+                          FROM record
+                          WHERE artist_id = artist.id OR artist_id = ${id}
+                          GROUP BY genre_id
+                          HAVING count(DISTINCT artist_id) = 2)
+          """.as[String]
+        DBManager.db.run(query).onComplete {
+          case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 5"))
+          case Failure(v) => ()
+        }
+      }
+    }
+  }
 
-  def query6(): Unit = ???
+  def query6(): Unit = {
+    Alerts.chooseArtistDialog("Artists with genres (>=)").showAndWait() match {
+      case Some(Artist(id, name, date)) => {
+        val query =
+          sql"""  SELECT artist.name
+                  FROM artist
+                  WHERE (SELECT count(DISTINCT record.genre_id)
+                         FROM record
+                         WHERE record.artist_id = ${id})
+                         =
+                         (SELECT count(genre_id) OVER()
+                          FROM record
+                          WHERE artist_id = artist.id OR artist_id = ${id}
+                          GROUP BY genre_id
+                          HAVING count(DISTINCT artist_id) = 2)
+          """.as[String]
+        DBManager.db.run(query).onComplete {
+          case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 5"))
+          case Failure(v) => ()
+        }
+      }
+    }
+  }
+
 }
