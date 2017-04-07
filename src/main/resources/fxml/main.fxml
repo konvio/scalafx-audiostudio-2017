@@ -32,7 +32,7 @@
                 <MenuItem onAction="#query1" text="Artists by Genre"/>
                 <MenuItem onAction="#query2" text="Artists by Album"/>
                 <MenuItem onAction="#query3" text="Artists by Genre Inverse"/>
-                <MenuItem onAction="#query4" text="Назви виконавців що виконують в жанрі"/>
+                <MenuItem onAction="#query4" text="Artists with exactly similar Genres"/>
                 <MenuItem onAction="#query5" text="Назви виконавців що виконують в жанрі"/>
                 <MenuItem onAction="#query6" text="Назви виконавців що виконують в жанрі"/>
             </Menu>

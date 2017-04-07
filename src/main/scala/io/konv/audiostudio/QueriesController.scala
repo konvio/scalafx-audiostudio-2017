@@ -99,7 +99,7 @@ object QueriesController {
                   FROM artist
                   GROUP BY artist.id
                   HAVING artist.id = ${id} OR 2 = ALL(
-                      SELECT count(DISTINCT artist.id)
+                      SELECT count(DISTINCT record.artist_id)
                       FROM record
                       WHERE record.artist_id = artist.id OR record.artist_id = ${id}
                       GROUP BY record.genre_id);
