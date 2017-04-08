@@ -4,11 +4,36 @@ import io.konv.audiostudio.models.Artist
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}-
+import scala.util.{Failure, Success}
 import scalafx.application.Platform
 import scalafx.scene.control.TextInputDialog
 
 object QueriesController {
+
+  def query0(): Unit = {
+
+    val dialog = new TextInputDialog() {
+      title = "Query Input"
+      headerText = "Artists by Record"
+      contentText = "Record"
+    }
+
+    dialog.showAndWait() match {
+      case Some(title) => {
+        val query =
+          sql""" SELECT DISTINCT artist.name
+                   FROM artist INNER JOIN record ON artist.id = record.artist_id
+                   WHERE record.title = ${title}
+                 """.as[String]
+        DBManager.db.run(query).onComplete {
+          case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 1"))
+          case Failure(v) =>
+        }
+      }
+      case None => ()
+    }
+  }
+
   def query1(): Unit = {
 
     val dialog = new TextInputDialog() {

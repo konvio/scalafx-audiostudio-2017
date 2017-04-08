@@ -29,6 +29,7 @@
                 <MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
             </Menu>
             <Menu mnemonicParsing="false" text="Queries">
+                <MenuItem onAction="#query0" text="Artists by Record"/>
                 <MenuItem onAction="#query1" text="Artists by Genre"/>
                 <MenuItem onAction="#query2" text="Artists by Album"/>
                 <MenuItem onAction="#query3" text="Artists by Genre Inverse"/>

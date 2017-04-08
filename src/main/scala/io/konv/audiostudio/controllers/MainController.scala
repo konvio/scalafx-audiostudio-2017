@@ -106,6 +106,8 @@ class MainController(val tabPane: TabPane) {
 
   def about(): Unit = Alerts.info("Audio Studio Manager", "Copyright Vitaliy Kononeneko K-24 © 2017")
 
+  def query0() = QueriesController.query0()
+
   def query1() = QueriesController.query1()
 
   def query2() = QueriesController.query2()
