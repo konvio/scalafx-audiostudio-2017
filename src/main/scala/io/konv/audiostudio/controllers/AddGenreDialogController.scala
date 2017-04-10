@@ -15,7 +15,7 @@ class AddGenreDialogController(genreField: TextField, descriptionField: TextArea
 
   override def get(): Genre = {
     val genre = genreField.getText
-    if (genre.length == 1) {
+    if (genre.length == 0) {
       Alerts.info("Invalid input", "Genre title should not be empty")
       return null
     }

@@ -41,9 +41,15 @@ class MainController(val tabPane: TabPane) {
   def addArtist(): Unit = {
     val result = new AddArtistDialog().showAndWait()
     result match {
-      case Some(v) => DBManager.db.run(sqlu"INSERT INTO artist(name) VALUES ('#$v')").onComplete {
-        case Success(v) => artistsLoader.getController[ArtistsTabTrait].update()
-        case Failure(v) => ()
+      case Some(v) => {
+        if (v.length == 0) {
+          Alerts.info("Invalid format", "Artists name should not be empty")
+          return
+        }
+        DBManager.db.run(sqlu"INSERT INTO artist(name) VALUES ('#$v')").onComplete {
+          case Success(v) => artistsLoader.getController[ArtistsTabTrait].update()
+          case Failure(v) => ()
+        }
       }
     }
   }

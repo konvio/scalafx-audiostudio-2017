@@ -20,6 +20,10 @@ object QueriesController {
 
     dialog.showAndWait() match {
       case Some(title) => {
+        if (title.length == 0) {
+          Alerts.info("Invalid input", "Text field should not be empty")
+          return
+        }
         val query =
           sql""" SELECT DISTINCT artist.name
                    FROM artist INNER JOIN record ON artist.id = record.artist_id
@@ -44,6 +48,10 @@ object QueriesController {
 
     dialog.showAndWait() match {
       case Some(genre) => {
+        if (genre.length == 0) {
+          Alerts.info("Invalid input", "Text field should not be empty")
+          return
+        }
         val query =
           sql""" SELECT DISTINCT artist.name
                    FROM artist INNER JOIN record ON artist.id = record.artist_id
@@ -69,6 +77,10 @@ object QueriesController {
 
     dialog.showAndWait() match {
       case Some(input) => {
+        if (input.length == 0) {
+          Alerts.info("Invalid input", "Text field should not be empty")
+          return
+        }
         val query =
           sql""" SELECT name
                    FROM artist JOIN record ON artist.id = record.artist_id
@@ -96,6 +108,10 @@ object QueriesController {
 
     dialog.showAndWait() match {
       case Some(input) => {
+        if (input.length == 0) {
+          Alerts.info("Invalid input", "Text field should not be empty")
+          return
+        }
         val query =
           sql""" WITH artists_of_genre AS (
                     SELECT record.artist_id AS id
