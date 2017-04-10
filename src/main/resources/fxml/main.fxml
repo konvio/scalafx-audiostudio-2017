@@ -62,6 +62,7 @@
                 <Tab text="Records"/>
                 <Tab text="Genres"/>
                 <Tab text="Albums"/>
+                <Tab text="Album Songs"/>
                 <Tab text="Income"/>
             </tabs>
         </TabPane>

@@ -24,12 +24,14 @@ class MainController(val tabPane: TabPane) {
   val genresLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_genres.fxml"), null)
   val albumsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_albums.fxml"), null)
   val plotLoader = new FXMLLoader(Main.getClass.getResource("/fxml/plot.fxml"), null)
+  val albumRecordsLoader = new FXMLLoader(Main.getClass.getResource("/fxml/tab_album_records.fxml"), null)
 
   tabPane.getTabs.get(0).setContent(artistsLoader.load[Parent])
   tabPane.getTabs.get(1).setContent(recordsLoader.load[Parent])
   tabPane.getTabs.get(2).setContent(genresLoader.load[Parent])
   tabPane.getTabs.get(3).setContent(albumsLoader.load[Parent])
-  tabPane.getTabs.get(4).setContent(plotLoader.load[Parent])
+  tabPane.getTabs.get(4).setContent(albumRecordsLoader.load[Parent])
+  tabPane.getTabs.get(5).setContent(plotLoader.load[Parent])
 
   tabPane.onKeyPressed = v => v.getCode match {
     case KeyCode.F5 => update()
@@ -104,6 +106,7 @@ class MainController(val tabPane: TabPane) {
     recordsLoader.getController[RecordTabTrait].update()
     genresLoader.getController[GenresTabTrait].update()
     albumsLoader.getController[AlbumsTabTrait].update()
+    albumRecordsLoader.getController[AlbumRecordsTabTrait].update()
     plotLoader.getController[PlotTabControllerTrait].update()
     Alerts.update()
   }
