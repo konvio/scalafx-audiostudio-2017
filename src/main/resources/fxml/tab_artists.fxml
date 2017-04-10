@@ -8,7 +8,9 @@
            fx:id="tableView">
     <columns>
         <TableColumn fx:id="id" text="Id" prefWidth="75.0"/>
-        <TableColumn fx:id="name" text="Name" prefWidth="75.0" />
+        <TableColumn fx:id="name" text="Name" prefWidth="75.0"/>
+        <TableColumn fx:id="count" text="Songs" prefWidth="75"/>
+        <TableColumn fx:id="sum" text="Income" prefWidth="75"/>
         <TableColumn fx:id="date" text="Date"/>
     </columns>
 </TableView>

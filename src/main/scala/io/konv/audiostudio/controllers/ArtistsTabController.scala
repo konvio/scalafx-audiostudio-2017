@@ -1,11 +1,13 @@
 package io.konv.audiostudio.controllers
 
+import java.sql.Date
 import javafx.collections.FXCollections
 import javafx.scene.input.KeyCode
 
 import io.konv.audiostudio.Includes._
 import io.konv.audiostudio.models.Artist
 import io.konv.audiostudio.{Alerts, DBManager}
+import slick.jdbc.GetResult
 import slick.jdbc.PostgresProfile.api._
 
 import scala.collection.JavaConverters._
@@ -19,19 +21,25 @@ trait ArtistsTabTrait {
   def update(): Unit
 }
 
+case class ArtistTabRow(id: Int, name: String, songsCount: Int, income: Int, date: Date)
+
 @sfxml
-class ArtistsTabController(val tableView: TableView[Artist],
-                           val id: TableColumn[Artist, String],
-                           val name: TableColumn[Artist, String],
-                           val date: TableColumn[Artist, String]) extends ArtistsTabTrait {
+class ArtistsTabController(val tableView: TableView[ArtistTabRow],
+                           val id: TableColumn[ArtistTabRow, String],
+                           val name: TableColumn[ArtistTabRow, String],
+                           val count: TableColumn[ArtistTabRow, String],
+                           val sum: TableColumn[ArtistTabRow, String],
+                           val date: TableColumn[ArtistTabRow, String]) extends ArtistsTabTrait {
 
   id.cellValueFactory = v => v.value.id.toString
   name.cellValueFactory = v => v.value.name
+  count.cellValueFactory = v => v.value.songsCount.toString
+  sum.cellValueFactory = v => v.value.income.toString
   date.cellValueFactory = v => v.value.date.toString
 
   tableView.editable = true
   name.editable = true
-  name.cellFactory = TextFieldTableCell.forTableColumn[Artist]()
+  name.cellFactory = TextFieldTableCell.forTableColumn[ArtistTabRow]()
   name.onEditCommit = v => {
     v.getRowValue.id
     if (v.getNewValue.length == 0) Alerts.info("Edit Artist", "Name should not be empty")
@@ -49,9 +57,17 @@ class ArtistsTabController(val tableView: TableView[Artist],
 
   update()
 
-  override def update(): Unit = DBManager.artists().onComplete {
-    case Success(v) => tableView.items.set(FXCollections.observableList(v.asJava))
-    case Failure(v) => ()
+  override def update(): Unit = {
+    implicit val getResult = GetResult[ArtistTabRow](r => ArtistTabRow(r.<<, r.<<, r.<<, r.<<, r.<<))
+    val query =
+      sql"""
+            SELECT artist.id, artist.name, count(record.id), sum(record.price), artist.registered_date
+            FROM artist LEFT JOIN record ON artist.id = record.artist_id
+            GROUP BY artist.id""".as[ArtistTabRow]
+    DBManager.db.run(query).onComplete {
+      case Success(v) => tableView.items.set(FXCollections.observableList(v.asJava))
+      case Failure(v) => ()
+    }
   }
 
   private def delete(): Unit = {
