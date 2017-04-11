@@ -1,12 +1,16 @@
 package io.konv.audiostudio
 
+import javafx.stage.Stage
+
 import io.konv.audiostudio.models.Artist
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
+import scalafx.Includes._
 import scalafx.application.Platform
 import scalafx.scene.control.TextInputDialog
+import scalafx.scene.image.Image
 
 object QueriesController {
 
@@ -16,6 +20,7 @@ object QueriesController {
       title = "Query Input"
       headerText = "Artists by Record"
       contentText = "Record"
+      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
     }
 
     dialog.showAndWait() match {
@@ -41,9 +46,10 @@ object QueriesController {
   def query1(): Unit = {
 
     val dialog = new TextInputDialog() {
-      title = "Query Input"
+      title = "Query"
       headerText = "Artists by Genre"
       contentText = "Genre"
+      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
     }
 
     dialog.showAndWait() match {
@@ -70,9 +76,10 @@ object QueriesController {
   def query2(): Unit = {
 
     val dialog = new TextInputDialog() {
-      title = "Query Input"
+      title = "Query"
       headerText = "Artists by Album"
       contentText = "Album"
+      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
     }
 
     dialog.showAndWait() match {
@@ -101,9 +108,10 @@ object QueriesController {
   def query3(): Unit = {
 
     val dialog = new TextInputDialog() {
-      title = "Query Form"
+      title = "Query"
       headerText = "Artists by Genre Inverse"
       contentText = "Genre"
+      dialogPane().getScene.getWindow.asInstanceOf[Stage].icons += new Image("img/icon.png")
     }
 
     dialog.showAndWait() match {
@@ -159,7 +167,7 @@ object QueriesController {
         val query =
           sql"""  SELECT artist.name
                   FROM artist
-                  WHERE (SELECT count(DISTINCT record.genre_id)
+                  WHERE artist.id = ${id} OR (SELECT count(DISTINCT record.genre_id)
                          FROM record
                          WHERE record.artist_id = artist.id)
                          =
@@ -183,7 +191,7 @@ object QueriesController {
         val query =
           sql"""  SELECT artist.name
                   FROM artist
-                  WHERE (SELECT count(DISTINCT record.genre_id)
+                  WHERE artist.id = ${id} OR (SELECT count(DISTINCT record.genre_id)
                          FROM record
                          WHERE record.artist_id = ${id})
                          =
