@@ -171,11 +171,15 @@ object QueriesController {
                          FROM record
                          WHERE record.artist_id = artist.id)
                          =
-                         (SELECT count(genre_id) OVER()
-                          FROM record
-                          WHERE artist_id = artist.id OR artist_id = ${id}
-                          GROUP BY genre_id
-                          HAVING count(DISTINCT artist_id) = 2)
+                         ( SELECT count(genre_id)
+                           FROM (
+                                  SELECT genre_id
+                                  FROM record
+                                  WHERE artist_id = artist.id OR artist_id = ${id}
+                                  GROUP BY genre_id
+                                  HAVING count(DISTINCT artist_id) = 2
+                                 ) AS Hope
+                         )
           """.as[String]
         DBManager.db.run(query).onComplete {
           case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 5"))
@@ -195,15 +199,19 @@ object QueriesController {
                          FROM record
                          WHERE record.artist_id = ${id})
                          =
-                         (SELECT count(genre_id) OVER()
-                          FROM record
-                          WHERE artist_id = artist.id OR artist_id = ${id}
-                          GROUP BY genre_id
-                          HAVING count(DISTINCT artist_id) = 2)
+                         ( SELECT COUNT(genre_id)
+                           FROM (
+                                  SELECT genre_id
+                                  FROM record
+                                  WHERE artist_id = artist.id OR artist_id = ${id}
+                                  GROUP BY genre_id
+                                  HAVING count(DISTINCT artist_id) = 2
+                                 ) AS Hope
+                         )
           """.as[String]
         DBManager.db.run(query).onComplete {
           case Success(v) => Platform.runLater(Alerts.showQueryResult(v, "Query 5"))
-          case Failure(v) => ()
+          case Failure(v) => Alerts.info("Nadia", v.getLocalizedMessage)
         }
       }
     }
